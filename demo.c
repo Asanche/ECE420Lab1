@@ -20,7 +20,6 @@ void* threadfunc (void* arg_p)
         sum += matrix_a[x][i] * matrix_b[i][y];
     }
     matrix_c[x][y] = sum;
-    //printf("sum = %d\n",sum);
     return NULL;
 } 
 
