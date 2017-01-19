@@ -22,13 +22,15 @@ int main (int argc, char* argv[])
 
     Lab1_loadinput(&matrix_a, &matrix_b, &size);
 
-    for(long thread = 0; thread < thread_count; thread++){
-        pthread_create(&thread_handles[thread], NULL, threadfunc, (void*)thread);
-    }
+    for(int i = 0; i < size){
+        for(long thread = 0; thread < thread_count; thread++){
+            pthread_create(&thread_handles[thread], NULL, threadfunc, (void*)thread);
+            i++
+        }
     
-    
-    for(long thread = 0; thread < thread_count; thread++){
-        pthread_join(thread_handles[thread], NULL);
+        for(long thread = 0; thread < thread_count; thread++){
+            pthread_join(thread_handles[thread], NULL);
+        }
     }
 }
 
