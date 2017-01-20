@@ -1,8 +1,8 @@
-/main
-/main.exe
-/matrixgen
-/matrixgen.exe
-/serialtester
-/serialtester.exe
+/main.o*
+/main.exe*
+/matrixgen.o*
+/matrixgen.exe*
+/serialtester.o*
+/serialtester.exe*
 /.vscode
 /tmp/*
