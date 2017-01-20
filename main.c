@@ -11,13 +11,16 @@ int size;
 
 void* Calculate_element (void* arg_p)
 {
-    long outputSpot = (long) arg_p;
-    long x = outputSpot % size;
-    long y = outputSpot / size;
+    long element_index = (long) arg_p;
+    long x = element_index % size;
+    long y = element_index / size;
     long sum = 0;
-    for (int i = 0; i < size; i++){
+    
+    for (int i = 0; i < size; i++)
+    {
         sum += matrix_a[x][i] * matrix_b[i][y];
     }
+
     matrix_c[x][y] = sum;
     return NULL;
 } 
@@ -36,14 +39,18 @@ int main (int argc, char* argv[])
       matrix_c[i] = malloc(size * sizeof(int));
     }
 
+    int area = size * size;
+
     GET_TIME(start);
-    for(long i = 0; i < size * size;){
-        for(long thread = 0; thread < thread_count; thread++){
+    for(long i = 0; i < area;){
+        for(long thread = 0; thread < thread_count; thread++)
+        {
             pthread_create(&thread_handles[thread], NULL, Calculate_element, (void*)i);
             i++;
         }
     
-        for(long thread = 0; thread < thread_count; thread++){
+        for(long thread = 0; thread < thread_count; thread++)
+        {
             pthread_join(thread_handles[thread], NULL);
         }
     }
