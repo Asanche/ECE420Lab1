@@ -1,6 +1,7 @@
-./main
-./main.exe
-./matrixgen
-./matrixgen.exe
-./serialtester
-./serialtester.exe
+/main
+/main.exe
+/matrixgen
+/matrixgen.exe
+/serialtester
+/serialtester.exe
+/.vscode
