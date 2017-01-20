@@ -22,6 +22,8 @@ void* Calculate_element (void* arg_p)
         //matrix_c[x][y] += matrix_a[x][i] * matrix_b[i][y];
         sum += matrix_a[x][i] * matrix_b[i][y];
     }
+
+    matrix_c[x][y] = sum;
     pthread_exit(NULL);
 } 
 
