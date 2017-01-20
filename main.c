@@ -25,7 +25,7 @@ void* Calculate_element (void* arg_p)
 
 int main (int argc, char* argv[])
 {
-    if(argv[1] == NULL || "")
+    if(argc < 2)
     {
         printf("You didn't input a number of threads... please rerun like \"./main <threads>\"");
         return 1;
