@@ -1,6 +1,6 @@
 /*
     Authors: Adam Sanche & Niko Somos
-    Class: ECE 420 Lab <Section>
+    Class: ECE 420 Lab H42
     Professor: D. Niu
 
     == Explanation ==
@@ -62,6 +62,25 @@ void* Calculate_element (void* arg_p)
 
 int main (int argc, char* argv[])
 {
+    /*
+    == Explanation ==
+        This takes an argument from the command line (argv[1]) that corresponds
+        to the quantity of threads to be used for the matrix multiplication.
+        It calls a function in lab1_IO.c that reads matrix_a and matrix_b from 
+        data_input.txt.
+        It instantiates a number of threads (at a time) equivalent to the 
+        quantity specified by the user, and then joins the threads, repeating 
+        this process until all of the elements of the result matrix (global 
+        variable int** matrix_c have been calculated)
+
+    == Inputs ==
+        int argc - number of command line arguments
+        char* argv[] - array of command line arguments
+            - argv[1] should be # of threads to be used
+
+    == Outputs ==
+        N/A
+    */
 
     //Checks to make sure that there was an inputted number of threads
     if(argc < 2)
