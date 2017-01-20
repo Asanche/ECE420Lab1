@@ -5,6 +5,11 @@ Code for ECE 420 Lab 1
 * Run "make" to compile, or "make run" to compile and run the check
 
 ##Make Command List:
+* type make followed by one of the commands to execute it
+
+###compile (default command):
+* runs clean, main, matrixgen, and serialchecker
+* can be called by just running "make"
 
 ###clean:
 * removes tmp/, main.exe, main.o, matrixgen.exe, matrixgen.o, serialtester.exe, serialtester.o, data_input.txt, data_output.txt,
@@ -20,9 +25,6 @@ Code for ECE 420 Lab 1
 
 ###matrixgen:
 * compiles matrixgen.c with output matrixgen.o or matrixgen.exe (cygwin)
-
-###compile:
-* runs clean, main, matrixgen, and serialchecker
 
 ###check:
 * runs "./check.sh"
