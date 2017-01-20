@@ -20,7 +20,7 @@ void* Calculate_element (void* arg_p)
     for (int i = 0; i < size; i++)
     {
         //matrix_c[x][y] += matrix_a[x][i] * matrix_b[i][y];
-        sume += matrix_a[x][i] * matrix_b[i][y];
+        sum += matrix_a[x][i] * matrix_b[i][y];
     }
     pthread_exit(NULL);
 } 
