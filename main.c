@@ -25,6 +25,12 @@ void* Calculate_element (void* arg_p)
 
 int main (int argc, char* argv[])
 {
+    if(argv[1] == NULL || "")
+    {
+        printf("You didn't input a number of threads... please rerun like \"./main <threads>\"");
+        return 1;
+    }
+
     double start; double end;
     int thread_count = strtol(argv[1], NULL, 10);
     pthread_t* thread_handles = malloc(thread_count*sizeof(pthread_t));
