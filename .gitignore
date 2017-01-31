@@ -1,9 +1,5 @@
-/main.o*
-/main.exe*
-/matrixgen.o*
-/matrixgen.exe*
-/serialtester.o*
-/serialtester.exe*
+/*.o*
+/*.exe*
 /.vscode
 /tmp/*
 /1393331-H42.zip

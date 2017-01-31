@@ -5,7 +5,6 @@
 
     == Explanation ==
 
-
     == Global Variables ==
         int** matrix_a - the first input matrix
         int** matrix_b - the second otput matrix
@@ -28,6 +27,24 @@
 //Memory locations of matrices and sizes as global variables.
 int** matrix_a; int** matrix_b; int**matrix_c;
 int size;
+
+void freeMatrix(int **matrix, int dimension) {
+    /*
+    == Explanation ==
+        Frees all arrays within the square matrix passed to it preventing memory leaks
+    == Inputs ==
+        int ** matrix - pointer to the matrix
+        int dimension - dimension of the square matrix
+    == Outputs ==
+        N/A
+    */
+
+    int i;
+    for (i = 0; i < dimension; ++i) {
+        free(matrix[i]);
+    }
+    free(matrix);
+}
 
 void* Calculate_element (void* arg_p)
 {
@@ -119,6 +136,11 @@ int main (int argc, char* argv[])
     GET_TIME(end);
 
     Lab1_saveoutput(matrix_c, &size, end-start);
+
+    freeMatrix(matrix_a, size);
+    freeMatrix(matrix_b, size);
+    freeMatrix(matrix_c, size);
+
     pthread_exit(NULL);
 }
 
