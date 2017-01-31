@@ -20,6 +20,6 @@ check:
 
 run: fix compile check 
 
-zip: lab1_IO.c lab1_IO.h main.c Makefile matrixgen.c README.md timer.h
+zip: lab1_IO.c lab1_IO.h main.c Makefile matrixgen.c README.md timer.h members.txt
 	zip 1393331-H42.zip lab1_IO.c lab1_IO.h main.c Makefile matrixgen.c README.md timer.h
 
