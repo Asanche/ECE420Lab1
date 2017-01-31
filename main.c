@@ -106,10 +106,14 @@ int main (int argc, char* argv[])
         return 1;
     }
 
+    //calculation timint values
     double start; double end;
+
+    //threads ininitialization and mallocing for the threads
     int thread_count = strtol(argv[1], NULL, 10);
     pthread_t* thread_handles = malloc(thread_count*sizeof(pthread_t));
 
+    //loads from input_data.txt to the matrix pointers
     Lab1_loadinput(&matrix_a, &matrix_b, &size);
 
     matrix_c = malloc(size * sizeof(int*));
@@ -120,14 +124,18 @@ int main (int argc, char* argv[])
 
     int area = size * size;
 
+    //caculates time as well as initiating the threads etc...
     GET_TIME(start);
     for(long i = 0; i < area;){
+
+        //create allowed amount of threads
         for(long thread = 0; thread < thread_count; thread++)
         {
             pthread_create(&thread_handles[thread], NULL, Calculate_element, (void*)i);
             i++;
         }
     
+        //joint created threads
         for(long thread = 0; thread < thread_count; thread++)
         {
             pthread_join(thread_handles[thread], NULL);
@@ -135,11 +143,14 @@ int main (int argc, char* argv[])
     }
     GET_TIME(end);
 
+    //Creates data_output.txt with results
     Lab1_saveoutput(matrix_c, &size, end-start);
 
+    //free all memory used
     freeMatrix(matrix_a, size);
     freeMatrix(matrix_b, size);
     freeMatrix(matrix_c, size);
+    free(thread_handles);
 
     pthread_exit(NULL);
 }
