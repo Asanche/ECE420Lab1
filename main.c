@@ -29,6 +29,7 @@
 int** matrix_a; int** matrix_b; int**matrix_c;
 int size;
 int elements_per_thread;
+int thread_count;
 
 void freeMatrix(int **matrix, int dimension) {
     /*
@@ -66,16 +67,21 @@ void* Calculate_element (void* arg_p)
     == Outputs ==
         N/A
     */
-    long element_index = (long) arg_p;
-    long x = element_index % size;
-    long y = element_index / size;
-    
-    matrix_c[x][y] = 0;
+    long thread = (long) arg_p;
+    long element_index;
+    long x;
+    long y;
     for(int j = 0; j < elements_per_thread; j++){
-      for (int i = 0; i < size; i++)
-	{
-	  matrix_c[x][y] += matrix_a[x][i] * matrix_b[i][y];
-	}
+        element_index = thread + (j * thread_count);
+        printf("%ld\n", element_index);
+        x = element_index % size;
+        y = element_index / size;
+        matrix_c[x][y] = 0;
+        for (int i = 0; i < size; i++)
+        {
+            matrix_c[x][y] += matrix_a[x][i] * matrix_b[i][y];
+        }
+        
     }
     pthread_exit(NULL);
 } 
@@ -113,16 +119,17 @@ int main (int argc, char* argv[])
     double start; double end;
 
     //threads initialization and mallocing for the threads
-    int thread_count = strtol(argv[1], NULL, 10);
-    elements_per_thread = (size * size) / thread_count
-    int remainder = (size * size) - (elements_per_thread * thread_count)
+    thread_count = strtol(argv[1], NULL, 10);
 
-    printf("yooo");
+    //printf("yooo");
 
     pthread_t* thread_handles = malloc(thread_count*sizeof(pthread_t));
 
     //loads from input_data.txt to the matrix pointers
     Lab1_loadinput(&matrix_a, &matrix_b, &size);
+
+    elements_per_thread = (size * size) / thread_count;
+    int remainder = (size * size) - (elements_per_thread * thread_count);
 
     matrix_c = malloc(size * sizeof(int*));
     for (int i = 0; i < size; i++)
