@@ -7,7 +7,7 @@ fix:
 	chmod u+x check.sh
 
 main: main.c lab1_IO.c
-	gcc -std=c99 -g -Wall -o main main.c lab1_IO.c -lpthread
+	gcc -std=c99 -g -Wall -o main main.c lab1_IO.c -lpthread -lrt
 
 matrixgen: matrixgen.c
 	gcc -g -Wall -o matrixgen matrixgen.c

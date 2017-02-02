@@ -20,6 +20,7 @@
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <semaphore.h>
 
 #include "lab1_IO.h"
 #include "timer.h"
@@ -27,6 +28,7 @@
 //Memory locations of matrices and sizes as global variables.
 int** matrix_a; int** matrix_b; int**matrix_c;
 int size;
+int elements_per_thread;
 
 void freeMatrix(int **matrix, int dimension) {
     /*
@@ -38,7 +40,6 @@ void freeMatrix(int **matrix, int dimension) {
     == Outputs ==
         N/A
     */
-
     int i;
     for (i = 0; i < dimension; ++i) {
         free(matrix[i]);
@@ -68,11 +69,13 @@ void* Calculate_element (void* arg_p)
     long element_index = (long) arg_p;
     long x = element_index % size;
     long y = element_index / size;
-    matrix_c[x][y] = 0;
     
-    for (int i = 0; i < size; i++)
-    {
-        matrix_c[x][y] += matrix_a[x][i] * matrix_b[i][y];
+    matrix_c[x][y] = 0;
+    for(int j = 0; j < elements_per_thread; j++){
+      for (int i = 0; i < size; i++)
+	{
+	  matrix_c[x][y] += matrix_a[x][i] * matrix_b[i][y];
+	}
     }
     pthread_exit(NULL);
 } 
@@ -109,8 +112,13 @@ int main (int argc, char* argv[])
     //calculation timint values
     double start; double end;
 
-    //threads ininitialization and mallocing for the threads
+    //threads initialization and mallocing for the threads
     int thread_count = strtol(argv[1], NULL, 10);
+    elements_per_thread = (size * size) / thread_count
+    int remainder = (size * size) - (elements_per_thread * thread_count)
+
+    printf("yooo");
+
     pthread_t* thread_handles = malloc(thread_count*sizeof(pthread_t));
 
     //loads from input_data.txt to the matrix pointers
@@ -122,24 +130,16 @@ int main (int argc, char* argv[])
       matrix_c[i] = malloc(size * sizeof(int));
     }
 
-    int area = size * size;
-
     //caculates time as well as initiating the threads etc...
     GET_TIME(start);
-    for(long i = 0; i < area;){
+    for(long thread = 0; thread < thread_count; thread++){
+         pthread_create(&thread_handles[thread], NULL, Calculate_element, (void*)thread);
+    }
 
-        //create allowed amount of threads
-        for(long thread = 0; thread < thread_count; thread++)
-        {
-            pthread_create(&thread_handles[thread], NULL, Calculate_element, (void*)i);
-            i++;
-        }
-    
-        //joint created threads
-        for(long thread = 0; thread < thread_count; thread++)
-        {
-            pthread_join(thread_handles[thread], NULL);
-        }
+     //joint created threads
+    for(long thread = 0; thread < thread_count; thread++)
+    {
+        pthread_join(thread_handles[thread], NULL);
     }
     GET_TIME(end);
 
