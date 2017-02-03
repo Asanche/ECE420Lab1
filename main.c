@@ -20,7 +20,6 @@
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <semaphore.h>
 
 #include "lab1_IO.h"
 #include "timer.h"
@@ -30,6 +29,7 @@ int** matrix_a; int** matrix_b; int**matrix_c;
 int size;
 int elements_per_thread;
 int thread_count;
+int remainder1;
 
 void freeMatrix(int **matrix, int dimension) {
     /*
@@ -71,7 +71,12 @@ void* Calculate_element (void* arg_p)
     long element_index;
     long x;
     long y;
-    for(int j = 0; j < elements_per_thread; j++){
+    long elements_per_this_thread = elements_per_thread;
+    if (thread < remainder1)
+    {
+        elements_per_this_thread+=1;
+    }
+    for(int j = 0; j < elements_per_this_thread; j++){
         element_index = thread + (j * thread_count);
         printf("%ld\n", element_index);
         x = element_index % size;
@@ -83,6 +88,7 @@ void* Calculate_element (void* arg_p)
         }
         
     }
+
     pthread_exit(NULL);
 } 
 
@@ -127,9 +133,10 @@ int main (int argc, char* argv[])
 
     //loads from input_data.txt to the matrix pointers
     Lab1_loadinput(&matrix_a, &matrix_b, &size);
-
-    elements_per_thread = (size * size) / thread_count;
-    int remainder = (size * size) - (elements_per_thread * thread_count);
+    int area = (size * size);
+    elements_per_thread = area / thread_count;
+    remainder1 = area;
+    remainder1 -= (elements_per_thread * thread_count);
 
     matrix_c = malloc(size * sizeof(int*));
     for (int i = 0; i < size; i++)
